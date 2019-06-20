@@ -31,8 +31,12 @@ class RpcGenerator extends BaseGenerator {
   }
 
   private void addInstanceFields() {
-    rpcController.addField(FieldSpec.builder(getServiceInterface(), "service").addAnnotation(
-        AnnotationSpec.builder(Autowired).addMember("required", "$L", false).build()).addModifiers(Modifier.PRIVATE).build());
+    rpcController.addField(FieldSpec.builder(getServiceInterface(), "service")
+        .addAnnotation(
+            AnnotationSpec.builder(Autowired)
+                .addMember("required", "$L", false)
+                .build())
+        .addModifiers(Modifier.PRIVATE).build());
   }
 
   private void addHandleMethod(DescriptorProtos.MethodDescriptorProto m) {
