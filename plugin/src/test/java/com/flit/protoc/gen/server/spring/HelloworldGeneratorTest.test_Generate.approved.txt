@@ -20,7 +20,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class RpcHelloWorldController {
-  @Autowired
+  @Autowired(
+      required = false
+  )
   private RpcHelloWorld service;
 
   @PostMapping("/twirp/com.example.helloworld.HelloWorld/Hello")
