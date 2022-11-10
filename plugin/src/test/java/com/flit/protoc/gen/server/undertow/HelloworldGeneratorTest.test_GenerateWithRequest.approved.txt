@@ -1,0 +1,117 @@
+[0] = package com.example.helloworld;
+
+import io.undertow.server.HttpServerExchange;
+
+public interface RpcHelloWorld {
+  Helloworld.HelloResp handleHello(HttpServerExchange request, Helloworld.HelloReq in);
+
+  Helloworld.HelloResp handleHelloAgain(HttpServerExchange request, Helloworld.HelloReq in);
+}
+
+[1] = package com.example.helloworld;
+
+import com.flit.runtime.ErrorCode;
+import com.flit.runtime.FlitException;
+import com.flit.runtime.undertow.ErrorWriter;
+import com.flit.runtime.undertow.FlitHandler;
+import com.google.protobuf.util.JsonFormat;
+import io.undertow.server.HttpHandler;
+import io.undertow.server.HttpServerExchange;
+import io.undertow.util.Headers;
+import java.io.InputStreamReader;
+import java.lang.Exception;
+import java.lang.Override;
+import java.lang.String;
+import java.nio.charset.StandardCharsets;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public class RpcHelloWorldHandler implements HttpHandler {
+  private static final Logger LOGGER = LoggerFactory.getLogger(RpcHelloWorldHandler.class);
+
+  public static final String ROUTE = "/twirp/com.example.helloworld.HelloWorld";
+
+  private final RpcHelloWorld service;
+
+  private final ErrorWriter errorWriter;
+
+  public RpcHelloWorldHandler(RpcHelloWorld service) {
+    this.service = service;
+    this.errorWriter = new ErrorWriter();
+  }
+
+  @Override
+  public void handleRequest(HttpServerExchange exchange) throws Exception {
+    if (exchange.isInIoThread()) {
+      exchange.dispatch(this);
+      return;
+    }
+    exchange.startBlocking();
+    String method = exchange.getAttachment(FlitHandler.KEY_METHOD);
+    try {
+      switch (method) {
+        case "Hello": handleHello(exchange); break;
+        case "HelloAgain": handleHelloAgain(exchange); break;
+        default: throw FlitException.builder().withErrorCode(ErrorCode.BAD_ROUTE).withMessage("No such route").build();
+      }
+    } catch (FlitException e) {
+      errorWriter.write(e, exchange);
+    } catch (Exception e) {
+      LOGGER.error("Exception caught at handler: {}", e.getMessage(), e);
+      errorWriter.write(e, exchange);
+    }
+  }
+
+  private void handleHello(HttpServerExchange exchange) throws Exception {
+    boolean json = false;
+    final Helloworld.HelloReq data;
+    final String contentType = exchange.getRequestHeaders().get(Headers.CONTENT_TYPE).getFirst();
+    if (contentType.equals("application/protobuf")) {
+      data = Helloworld.HelloReq.parseFrom(exchange.getInputStream());
+    } else if (contentType.startsWith("application/json")) {
+      json = true;
+      Helloworld.HelloReq.Builder builder = Helloworld.HelloReq.newBuilder();
+      JsonFormat.parser().merge(new InputStreamReader(exchange.getInputStream(), StandardCharsets.UTF_8), builder);
+      data = builder.build();
+    } else {
+      exchange.setStatusCode(415);
+      return;
+    }
+    Helloworld.HelloResp response = service.handleHello(exchange, data);
+    exchange.setStatusCode(200);
+    if (json) {
+      exchange.getResponseHeaders().put(Headers.CONTENT_TYPE, "application/json; charset=utf-8");
+      exchange.getResponseSender().send(JsonFormat.printer().omittingInsignificantWhitespace().print(response));
+    } else {
+      exchange.getResponseHeaders().put(Headers.CONTENT_TYPE, "application/protobuf");
+      response.writeTo(exchange.getOutputStream());
+    }
+  }
+
+  private void handleHelloAgain(HttpServerExchange exchange) throws Exception {
+    boolean json = false;
+    final Helloworld.HelloReq data;
+    final String contentType = exchange.getRequestHeaders().get(Headers.CONTENT_TYPE).getFirst();
+    if (contentType.equals("application/protobuf")) {
+      data = Helloworld.HelloReq.parseFrom(exchange.getInputStream());
+    } else if (contentType.startsWith("application/json")) {
+      json = true;
+      Helloworld.HelloReq.Builder builder = Helloworld.HelloReq.newBuilder();
+      JsonFormat.parser().merge(new InputStreamReader(exchange.getInputStream(), StandardCharsets.UTF_8), builder);
+      data = builder.build();
+    } else {
+      exchange.setStatusCode(415);
+      return;
+    }
+    Helloworld.HelloResp response = service.handleHelloAgain(exchange, data);
+    exchange.setStatusCode(200);
+    if (json) {
+      exchange.getResponseHeaders().put(Headers.CONTENT_TYPE, "application/json; charset=utf-8");
+      exchange.getResponseSender().send(JsonFormat.printer().omittingInsignificantWhitespace().print(response));
+    } else {
+      exchange.getResponseHeaders().put(Headers.CONTENT_TYPE, "application/protobuf");
+      response.writeTo(exchange.getOutputStream());
+    }
+  }
+}
+

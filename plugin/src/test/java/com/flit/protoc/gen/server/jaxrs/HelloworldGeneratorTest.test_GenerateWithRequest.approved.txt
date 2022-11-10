@@ -1,0 +1,91 @@
+[0] = package com.example.helloworld;
+
+import javax.servlet.http.HttpServletRequest;
+
+public interface RpcHelloWorld {
+  Helloworld.HelloResp handleHello(HttpServletRequest request, Helloworld.HelloReq in);
+
+  Helloworld.HelloResp handleHelloAgain(HttpServletRequest request, Helloworld.HelloReq in);
+}
+
+[1] = package com.example.helloworld;
+
+import com.google.protobuf.util.JsonFormat;
+import java.io.InputStreamReader;
+import java.lang.Exception;
+import java.nio.charset.StandardCharsets;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.core.Context;
+
+@Path("/twirp/com.example.helloworld.HelloWorld")
+public class RpcHelloWorldResource {
+  private final RpcHelloWorld service;
+
+  public RpcHelloWorldResource(RpcHelloWorld service) {
+    this.service = service;
+  }
+
+  @POST
+  @Path("/Hello")
+  public void handleHello(@Context HttpServletRequest request,
+      @Context HttpServletResponse response) throws Exception {
+    boolean json = false;
+    final Helloworld.HelloReq data;
+    if (request.getContentType().equals("application/protobuf")) {
+      data = Helloworld.HelloReq.parseFrom(request.getInputStream());
+    } else if (request.getContentType().startsWith("application/json")) {
+      json = true;
+      Helloworld.HelloReq.Builder builder = Helloworld.HelloReq.newBuilder();
+      JsonFormat.parser().merge(new InputStreamReader(request.getInputStream(), StandardCharsets.UTF_8), builder);
+      data = builder.build();
+    } else {
+      response.setStatus(415);
+      response.flushBuffer();
+      return;
+    }
+    Helloworld.HelloResp retval = service.handleHello(request, data);
+    response.setStatus(200);
+    if (json) {
+      response.setContentType("application/json; charset=utf-8");
+      response.getOutputStream().write(JsonFormat.printer().omittingInsignificantWhitespace().print(retval).getBytes(StandardCharsets.UTF_8));
+    } else {
+      response.setContentType("application/protobuf");
+      retval.writeTo(response.getOutputStream());
+    }
+    response.flushBuffer();
+  }
+
+  @POST
+  @Path("/HelloAgain")
+  public void handleHelloAgain(@Context HttpServletRequest request,
+      @Context HttpServletResponse response) throws Exception {
+    boolean json = false;
+    final Helloworld.HelloReq data;
+    if (request.getContentType().equals("application/protobuf")) {
+      data = Helloworld.HelloReq.parseFrom(request.getInputStream());
+    } else if (request.getContentType().startsWith("application/json")) {
+      json = true;
+      Helloworld.HelloReq.Builder builder = Helloworld.HelloReq.newBuilder();
+      JsonFormat.parser().merge(new InputStreamReader(request.getInputStream(), StandardCharsets.UTF_8), builder);
+      data = builder.build();
+    } else {
+      response.setStatus(415);
+      response.flushBuffer();
+      return;
+    }
+    Helloworld.HelloResp retval = service.handleHelloAgain(request, data);
+    response.setStatus(200);
+    if (json) {
+      response.setContentType("application/json; charset=utf-8");
+      response.getOutputStream().write(JsonFormat.printer().omittingInsignificantWhitespace().print(retval).getBytes(StandardCharsets.UTF_8));
+    } else {
+      response.setContentType("application/protobuf");
+      retval.writeTo(response.getOutputStream());
+    }
+    response.flushBuffer();
+  }
+}
+
