@@ -29,11 +29,18 @@ public class RpcGenerator extends BaseGenerator {
   public static final ClassName HttpServletResponse = ClassName.bestGuess("javax.servlet.http.HttpServletResponse");
   private final String context;
   private final Builder rpcResource;
+  private final boolean passRequest;
 
-  RpcGenerator(DescriptorProtos.FileDescriptorProto proto,
-      DescriptorProtos.ServiceDescriptorProto service, String context, TypeMapper mapper) {
+  RpcGenerator(
+      DescriptorProtos.FileDescriptorProto proto,
+      DescriptorProtos.ServiceDescriptorProto service,
+      String context,
+      TypeMapper mapper,
+      boolean passRequest
+  ) {
     super(proto, service, mapper);
     this.context = getContext(context);
+    this.passRequest = passRequest;
     this.rpcResource = TypeSpec.classBuilder(getResourceName(service))
         .addModifiers(Modifier.PUBLIC)
         .addAnnotation(
@@ -84,7 +91,7 @@ public class RpcGenerator extends BaseGenerator {
         .addStatement("return")
         .endControlFlow()
         // route to the service
-        .addStatement("$T retval = service.handle$L(data)", outputType, mdp.getName())
+        .addStatement(getRouteToService(), outputType, mdp.getName())
         .addStatement("response.setStatus(200)")
         // send the response
         .beginControlFlow("if (json)")
@@ -98,6 +105,14 @@ public class RpcGenerator extends BaseGenerator {
         .endControlFlow()
         .addStatement("response.flushBuffer()")
         .build());
+  }
+
+  private String getRouteToService() {
+    if (passRequest) {
+      return "$T retval = service.handle$L(request, data)";
+    } else {
+      return "$T retval = service.handle$L(data)";
+    }
   }
 
   private ClassName getResourceName(DescriptorProtos.ServiceDescriptorProto service) {

@@ -22,10 +22,18 @@ class RpcGenerator extends BaseGenerator {
 
   private final String context;
   private final TypeSpec.Builder rpcController;
+  private final boolean passRequest;
 
-  RpcGenerator(DescriptorProtos.FileDescriptorProto proto, DescriptorProtos.ServiceDescriptorProto service, String context, TypeMapper mapper) {
+  RpcGenerator(
+      DescriptorProtos.FileDescriptorProto proto,
+      DescriptorProtos.ServiceDescriptorProto service,
+      String context,
+      TypeMapper mapper,
+      boolean passRequest
+  ) {
     super(proto, service, mapper);
     this.context = getContext(context);
+    this.passRequest = passRequest;
     rpcController = TypeSpec.classBuilder(getControllerName()).addModifiers(Modifier.PUBLIC).addAnnotation(RestController);
     addInstanceFields();
     service.getMethodList().forEach(this::addHandleMethod);
@@ -63,7 +71,7 @@ class RpcGenerator extends BaseGenerator {
       .addStatement("return")
       .endControlFlow()
       // route to the service
-      .addStatement("$T retval = service.handle$L(data)", outputType, m.getName())
+      .addStatement(getRouteToService(), outputType, m.getName())
       .addStatement("response.setStatus(200)")
       // send the response
       .beginControlFlow("if (json)")
@@ -76,7 +84,14 @@ class RpcGenerator extends BaseGenerator {
       .addStatement("retval.writeTo(response.getOutputStream())")
       .endControlFlow()
       .build());
+  }
 
+  private String getRouteToService() {
+    if (passRequest) {
+      return "$T retval = service.handle$L(request, data)";
+    } else {
+      return "$T retval = service.handle$L(data)";
+    }
   }
 
   private ClassName getControllerName() {

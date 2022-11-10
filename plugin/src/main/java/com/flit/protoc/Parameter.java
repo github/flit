@@ -1,13 +1,12 @@
 package com.flit.protoc;
 
 import com.flit.protoc.gen.GeneratorException;
-import lombok.Getter;
-import lombok.ToString;
-
 import java.util.Arrays;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import lombok.Getter;
+import lombok.ToString;
 
 @Getter @ToString public class Parameter {
 
@@ -15,9 +14,10 @@ import java.util.stream.Collectors;
   public static final String PARAM_CLIENT = "client";
   public static final String PARAM_TYPE = "type";
   public static final String PARAM_CONTEXT = "context";
+  public static final String PARAM_REQUEST = "request";
 
-  private String key;
-  private String value;
+  private final String key;
+  private final String value;
 
   public Parameter(String[] strings) {
     this.key = strings[0];
