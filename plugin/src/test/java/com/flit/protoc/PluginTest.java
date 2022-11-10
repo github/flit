@@ -1,11 +1,11 @@
 package com.flit.protoc;
 
-import com.google.protobuf.compiler.PluginProtos;
-import org.junit.Test;
-
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+
+import com.google.protobuf.compiler.PluginProtos;
+import org.junit.Test;
 
 public class PluginTest {
 
@@ -14,7 +14,7 @@ public class PluginTest {
     PluginProtos.CodeGeneratorResponse response = plugin.process();
 
     assertTrue("Expected an error for no parameters", response.hasError());
-    assertEquals("Incorrect error message", "Usage: --flit_out=target=server,type=[spring|undertow|jaxrs]:<PATH>", response.getError());
+    assertEquals("Incorrect error message", "Usage: --flit_out=target=server,type=[spring|undertow|jaxrs][,request=[class(es)]]:<PATH>", response.getError());
   }
 
   @Test public void test_NoTargetSpecified() {

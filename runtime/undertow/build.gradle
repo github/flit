@@ -33,7 +33,11 @@ dependencies {
 
 protobuf {
   protoc {
-    artifact = "com.google.protobuf:protoc:${protobufVersion}"
+    if (project.hasProperty('protoc_platform')) {
+      artifact = "com.google.protobuf:protoc:$protobufVersion:${protoc_platform}"
+    } else {
+      artifact = "com.google.protobuf:protoc:$protobufVersion"
+    }
   }
   plugins {
     flit {

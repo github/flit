@@ -159,9 +159,9 @@ class RpcGenerator extends BaseGenerator {
 
   private String getRouteToService() {
     if (passRequest) {
-      return "$T retval = service.handle$L(exchange, data)";
+      return "$T response = service.handle$L(exchange, data)";
     } else {
-      return "$T retval = service.handle$L(data)";
+      return "$T response = service.handle$L(data)";
     }
   }
 
