@@ -33,6 +33,11 @@ public abstract class BaseGenerator {
     return ClassName.get(javaPackage, "Rpc" + service.getName());
   }
 
+  /** Returns the {@code Rpc${Service}} synchronous interface. */
+  protected ClassName getAuthServiceInterface() {
+    return ClassName.get(javaPackage, "RpcAuth" + service.getName());
+  }
+
   protected static String getContext(String context) {
     if (context == null) {
       return "/twirp";

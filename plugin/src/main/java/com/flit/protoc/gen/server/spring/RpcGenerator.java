@@ -16,6 +16,7 @@ class RpcGenerator extends BaseGenerator {
 
   public static final ClassName RestController = ClassName.bestGuess("org.springframework.web.bind.annotation.RestController");
   public static final ClassName Autowired = ClassName.bestGuess("org.springframework.beans.factory.annotation.Autowired");
+  public static final AnnotationSpec AutowiredFalse = AnnotationSpec.builder(Autowired).addMember("required", "false").build();
   public static final ClassName PostMapping = ClassName.bestGuess("org.springframework.web.bind.annotation.PostMapping");
   public static final ClassName HttpServletRequest = ClassName.bestGuess("javax.servlet.http.HttpServletRequest");
   public static final ClassName HttpServletResponse = ClassName.bestGuess("javax.servlet.http.HttpServletResponse");
@@ -33,6 +34,7 @@ class RpcGenerator extends BaseGenerator {
 
   private void addInstanceFields() {
     rpcController.addField(FieldSpec.builder(getServiceInterface(), "service").addAnnotation(Autowired).addModifiers(Modifier.PRIVATE).build());
+    rpcController.addField(FieldSpec.builder(getAuthServiceInterface(), "auth").addAnnotation(AutowiredFalse).addModifiers(Modifier.PRIVATE).build());
   }
 
   private void addHandleMethod(DescriptorProtos.MethodDescriptorProto m) {
@@ -60,6 +62,10 @@ class RpcGenerator extends BaseGenerator {
       .addStatement("data = builder.build()")
       .nextControlFlow("else")
       .addStatement("response.setStatus(415)")
+      .addStatement("return")
+      .endControlFlow()
+      .beginControlFlow("if (auth != null && !auth.handle$L(request, data))", m.getName())
+      .addStatement("response.setStatus(401)")
       .addStatement("return")
       .endControlFlow()
       // route to the service

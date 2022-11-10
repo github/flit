@@ -28,7 +28,7 @@ public abstract class BaseServerGenerator implements Generator {
     request.getProtoFileList().forEach(proto -> {
       proto.getServiceList().forEach(s -> {
         files.addAll(new ServiceGenerator(proto, s, mapper).getFiles());
-        files.addAll(getRpcGenerator(proto, s, context, mapper).getFiles());
+        getGenerators(proto, s, context, mapper).forEach(g -> files.addAll(g.getFiles()));
       });
     });
     return files;
@@ -41,5 +41,5 @@ public abstract class BaseServerGenerator implements Generator {
     return null;
   }
 
-  protected abstract BaseGenerator getRpcGenerator(FileDescriptorProto proto, ServiceDescriptorProto service, String context, TypeMapper mapper);
+  protected abstract List<BaseGenerator> getGenerators(FileDescriptorProto proto, ServiceDescriptorProto service, String context, TypeMapper mapper);
 }
