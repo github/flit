@@ -72,7 +72,7 @@ public class Plugin {
     if (requestServices == null) {
       return Collections.emptyList();
     } else {
-      return Arrays.asList(requestServices.getValue().split(","));
+      return Arrays.asList(requestServices.getValue().split(";"));
     }
   }
 }
