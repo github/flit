@@ -1,64 +1,16 @@
-plugins {
-  id 'java'
-  id 'idea'
-  id "com.google.protobuf" version "0.8.6"
-}
-
-group 'com.flit'
-archivesBaseName = 'flit-undertow-runtime'
-sourceCompatibility = 1.8
-
-repositories {
-  mavenCentral()
-}
-
-// Make a flit configuration for testing our runtime
-configurations {
-  testFlit
-}
-
-def protobufVersion = '3.5.1'
-def flitDir = "$buildDir/flit"
-
 dependencies {
-  compile project(':runtime:core')
-  compile 'org.slf4j:slf4j-api:1.7.25'
-  compile 'io.undertow:undertow-core:2.0.9.Final'
-  compile 'com.google.code.gson:gson:2.8.5'
-
-  testCompile 'junit:junit:4.12'
-
-  testFlit project(path: ':plugin', configuration: 'zip')
+  implementation(project(':runtime:core'))
+  compileOnly("org.slf4j:slf4j-api:$slf4jVersion")
+  compileOnly("io.undertow:undertow-core:$undertowVersion")
 }
 
-protobuf {
-  protoc {
-    if (project.hasProperty('protoc_platform')) {
-      artifact = "com.google.protobuf:protoc:$protobufVersion:${protoc_platform}"
-    } else {
-      artifact = "com.google.protobuf:protoc:$protobufVersion"
-    }
-  }
-  plugins {
-    flit {
-      path = "${flitDir}/protoc-gen-flit"
-    }
-  }
-  generateProtoTasks {
-    all().each { task ->
-      task.plugins {
-        flit {
-          option 'target=server'
-          option 'type=undertow'
-        }
-      }
-      task.dependsOn unzipFlit
-    }
-  }
-}
+publishing {
+  publications {
+    maven(MavenPublication) {
+      artifactId = 'flit-undertow-runtime'
+      version = "1.3"
 
-task unzipFlit(type: Copy) {
-  inputs.files configurations.testFlit
-  from configurations.testFlit.findAll { it.name.endsWith('zip') }.collect { zipTree(it) }
-  into flitDir
+      from components.java
+    }
+  }
 }

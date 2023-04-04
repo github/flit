@@ -1,19 +1,15 @@
-plugins {
-    id 'java'
-}
-
-group 'com.flit'
-archivesBaseName = 'flit-core-runtime'
-sourceCompatibility = 1.8
-def protobufVersion = '3.5.1'
-
-repositories {
-    mavenCentral()
-}
-
 dependencies {
-    compile "com.google.protobuf:protobuf-java:${protobufVersion}"
-    compile "com.google.protobuf:protobuf-java-util:${protobufVersion}"
+    api("com.google.protobuf:protobuf-java:${protobufVersion}")
+    api("com.google.protobuf:protobuf-java-util:${protobufVersion}")
+}
 
-    testCompile 'junit:junit:4.12'
+publishing {
+    publications {
+        maven(MavenPublication) {
+            artifactId = 'flit-core-runtime'
+            version = "1.3"
+
+            from components.java
+        }
+    }
 }

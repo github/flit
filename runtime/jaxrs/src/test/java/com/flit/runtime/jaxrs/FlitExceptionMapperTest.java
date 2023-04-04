@@ -1,6 +1,6 @@
 package com.flit.runtime.jaxrs;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.flit.runtime.ErrorCode;
 import com.flit.runtime.FlitException;
@@ -9,12 +9,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+@ExtendWith(MockitoExtension.class)
 public class FlitExceptionMapperTest {
 
   @Mock
@@ -22,11 +23,6 @@ public class FlitExceptionMapperTest {
 
   @InjectMocks
   private FlitExceptionMapper flitExceptionMapper = new FlitExceptionMapper();
-
-  @Before
-  public void setup() {
-    MockitoAnnotations.initMocks(this);
-  }
 
   @Test
   public void testToResponse() {

@@ -1,11 +1,12 @@
 package com.flit.protoc.gen.server;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.google.protobuf.DescriptorProtos;
 import com.squareup.javapoet.ClassName;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class TypeMapperTest {
 
@@ -159,7 +160,7 @@ public class TypeMapperTest {
     assertEquals("Map", result.simpleName());
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void javaPackageWithOuterClassEmpty() {
     DescriptorProtos.FileOptions options = DescriptorProtos.FileOptions.newBuilder()
         .setJavaMultipleFiles(false)
@@ -175,9 +176,7 @@ public class TypeMapperTest {
         .build();
 
     TypeMapper mapper = new TypeMapper();
-    mapper.add(proto);
-
-    mapper.get(".flit.test.Map");
+    assertThrows(IllegalArgumentException.class, () -> mapper.add(proto));
   }
 
   @Test

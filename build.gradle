@@ -1,38 +1,64 @@
-buildscript {
+plugins {
+    id 'java-library'
+    id 'maven-publish'
+    id 'dev.poolside.gradle.semantic-version' version '0.1.5'
+}
+
+allprojects {
+    apply plugin: 'java-library'
+    apply plugin: 'maven-publish'
+
     repositories {
-        jcenter()
+        mavenCentral()
     }
+
+    ext {
+        // third party
+        javapoetVersion = "1.13.0"
+        javaxservletapiVersion = "4.0.1"
+        javaxwsrsapiVersion = "2.1.1"
+        protobufVersion = "3.22.2"
+        slf4jVersion = "1.7.36"
+        springVersion = "5.3.26"
+        undertowVersion = "2.3.5.Final"
+
+        // testing
+        approvaltestsVersion = "18.5.0"
+        javaparserVersion = "3.25.2"
+        jerseyCommonVersion = "2.22.2"
+        junitJupiterVersion = "5.9.2"
+        mockitoVersion = "5.2.0"
+    }
+
+    java {
+        group = "com.flit"
+        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_11
+        withSourcesJar()
+    }
+
+    test {
+        useJUnitPlatform()
+        testLogging {
+            events "passed", "skipped", "failed"
+        }
+    }
+
     dependencies {
-        classpath('org.eclipse.jgit:org.eclipse.jgit:4.6.0.201612231935-r')
+        testImplementation(platform("org.junit:junit-bom:$junitJupiterVersion"))
+        testImplementation('org.junit.jupiter:junit-jupiter')
+    }
+
+    publishing {
+        repositories {
+            maven {
+                name = "GitHubPackages"
+                url = uri("https://maven.pkg.github.com/github/flit")
+                credentials {
+                    username = project.findProperty("gpr.user") ?: System.getenv("GITHUB_ACTOR")
+                    password = project.findProperty("gpr.key") ?: System.getenv("GITHUB_TOKEN")
+                }
+            }
+        }
     }
 }
-
-import org.eclipse.jgit.lib.Repository
-import org.eclipse.jgit.storage.file.FileRepositoryBuilder
-
-import java.time.Instant
-import java.time.ZoneOffset
-import java.time.format.DateTimeFormatter
-
-static def scmInfo(String path) {
-    FileRepositoryBuilder builder = new FileRepositoryBuilder()
-    Repository repository = builder.setGitDir(new File("${path}/.git"))
-            .readEnvironment()
-            .findGitDir()
-            .build()
-
-    def branch = repository.getBranch()
-    def head = repository.resolve("HEAD")
-    def revision = head == null ? "UNKNOWN" : head.name()
-    def date = Instant.now().atOffset(ZoneOffset.UTC).format(DateTimeFormatter.ISO_OFFSET_DATE_TIME)
-    def tstamp = Instant.now().atOffset(ZoneOffset.UTC).format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS"))
-
-    return [
-            branch  : branch,
-            revision: revision,
-            date    : date,
-            tstamp  : tstamp
-    ]
-}
-
-project.ext.scm = scmInfo(rootDir.getAbsolutePath())

@@ -1,8 +1,8 @@
 package com.flit.protoc.gen.server.jaxrs;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.flit.protoc.Plugin;
 import com.flit.protoc.gen.BaseGeneratorTest;
@@ -11,7 +11,7 @@ import com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.File;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the generation of a service that has core definition imported from another file
