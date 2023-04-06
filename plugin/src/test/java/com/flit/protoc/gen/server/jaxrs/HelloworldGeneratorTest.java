@@ -1,15 +1,15 @@
 package com.flit.protoc.gen.server.jaxrs;
 
 import static java.util.stream.Collectors.toList;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import com.flit.protoc.Plugin;
 import com.flit.protoc.gen.BaseGeneratorTest;
 import com.google.protobuf.compiler.PluginProtos;
 import com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.File;
 import org.approvaltests.Approvals;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class HelloworldGeneratorTest extends BaseGeneratorTest {
 

@@ -1,21 +1,17 @@
-plugins {
-    id 'java'
-}
-
-group 'com.flit'
-archivesBaseName = 'flit-spring-runtime'
-sourceCompatibility = 1.8
-
-repositories {
-    mavenCentral()
-}
-
 dependencies {
+    compileOnly(project(':runtime:core'))
+    compileOnly("org.slf4j:slf4j-api:$slf4jVersion")
+    compileOnly("javax.servlet:javax.servlet-api:$javaxservletapiVersion")
+    compileOnly("org.springframework:spring-webmvc:$springVersion")
+}
 
-    compileOnly project(':runtime:core')
-    compileOnly 'org.slf4j:slf4j-api:1.7.25'
-    compileOnly 'javax.servlet:javax.servlet-api:4.0.1'
-    compileOnly 'org.springframework:spring-webmvc:5.0.6.RELEASE'
+publishing {
+    publications {
+        maven(MavenPublication) {
+            artifactId = 'flit-spring-runtime'
+            version = "1.3"
 
-    testCompile 'junit:junit:4.12'
+            from components.java
+        }
+    }
 }

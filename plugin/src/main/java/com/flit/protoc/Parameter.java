@@ -5,10 +5,8 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import lombok.Getter;
-import lombok.ToString;
 
-@Getter @ToString public class Parameter {
+public class Parameter {
 
   public static final String PARAM_TARGET = "target";
   public static final String PARAM_CLIENT = "client";
@@ -22,6 +20,22 @@ import lombok.ToString;
   public Parameter(String[] strings) {
     this.key = strings[0];
     this.value = strings[1];
+  }
+
+  public String getKey() {
+    return key;
+  }
+
+  public String getValue() {
+    return value;
+  }
+
+  @Override
+  public String toString() {
+    return "Parameter{" +
+        "key='" + key + '\'' +
+        ", value='" + value + '\'' +
+        '}';
   }
 
   public static Map<String, Parameter> of(String value) {

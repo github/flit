@@ -13,12 +13,12 @@ It supports the generation of Java based servers with the following flavours sup
 
 ### Requirements
 
-The build has been tested with [Zulu's OpenJDK](https://www.azul.com/downloads/zulu-community/?architecture=x86-64-bit&package=jdk "JDK Downloads") (version 11)
+The build has been tested with [Zulu's OpenJDK](https://www.azul.com/downloads/#zulu "JDK Downloads") version 11.
 
 The build uses gradle to generate the artifacts. No installation is required as the project uses the
 [gradle wrapper](https://docs.gradle.org/current/userguide/gradle_wrapper.html "gradle wrapper") setup.
 
-For testing you will need an installation of the [protocol buffers compiler](https://github.com/google/protobuf/releases "protobuf releases").
+To test you will need an installation of the [protocol buffers compiler](https://github.com/protocolbuffers/protobuf/releases "protobuf releases").
 
 ### Modules
 
@@ -37,9 +37,9 @@ The project is split into the following modules:
 
 To build the various components, run the following:
 
-    git clone git@github.com:devork/flit.git
+    git clone git@github.com:github/flit.git
     cd flit
-    ./gradlew clean build pack
+    ./gradlew clean build
 
 ### Installation
 
@@ -47,10 +47,7 @@ Currently, the run script only supports *nix but the run script should be fairly
 
 After building:
 
-    cp plugin/build/package/flit-plugin.zip /usr/local/bin
-    cd /usr/local/bin
-    unzip flit-plugin.zip
-    chmod +x protoc-gen-flit
+    cp plugin/build/libs/plugin-all.jar /code/java-project/scripts/
 
 ## Running
 
