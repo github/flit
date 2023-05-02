@@ -1,5 +1,5 @@
 dependencies {
-    implementation(project(':runtime:core'))
+    api(project(':runtime:core'))
     implementation("javax.servlet:javax.servlet-api:$javaxservletapiVersion")
     implementation("javax.ws.rs:javax.ws.rs-api:$javaxwsrsapiVersion")
     implementation("org.slf4j:slf4j-api:$slf4jVersion")
