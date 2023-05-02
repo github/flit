@@ -82,6 +82,10 @@ The plugin can be called from the Gradle protobuf plugin via additional configur
 
 ```groovy
 protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:$protocVersion"
+    }
+  
     plugins {
         flit {
             path = "${projectDir}/script/protoc-gen-flit"
@@ -104,7 +108,7 @@ protobuf {
 
 DIR=$(dirname "$0")
 
-JAR=$(ls -c ${DIR}/plugin-*-all.jar | head -1)
+JAR=$(ls -c ${DIR}/flit-plugin-*.jar | head -1)
 java ${FLIT_JAVA_OPTS} -jar $JAR $@
 ```
 Where the plugin jar is located in the same directly as the script.

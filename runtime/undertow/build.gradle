@@ -1,5 +1,5 @@
 dependencies {
-  implementation(project(':runtime:core'))
+  api(project(':runtime:core'))
   compileOnly("org.slf4j:slf4j-api:$slf4jVersion")
   compileOnly("io.undertow:undertow-core:$undertowVersion")
 }

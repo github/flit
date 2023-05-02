@@ -1,5 +1,5 @@
 dependencies {
-    implementation(project(':runtime:core'))
+    api(project(':runtime:core'))
     implementation("jakarta.servlet:jakarta.servlet-api:$jakartaservletapiVersion")
     implementation("jakarta.ws.rs:jakarta.ws.rs-api:$jakartawsrsapiVersion")
     implementation("org.slf4j:slf4j-api:$slf4jVersion")
