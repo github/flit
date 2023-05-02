@@ -1,4 +1,4 @@
-package com.flit.protoc.gen.server.jaxrs;
+package com.flit.protoc.gen.server.jakarta;
 
 import com.flit.protoc.gen.server.BaseGenerator;
 import com.flit.protoc.gen.server.TypeMapper;
@@ -20,11 +20,11 @@ import javax.lang.model.element.Modifier;
 
 public class RpcGenerator extends BaseGenerator {
 
-  static final ClassName PATH = ClassName.bestGuess("javax.ws.rs.Path");
-  static final ClassName POST = ClassName.bestGuess("javax.ws.rs.POST");
-  static final ClassName CONTEXT = ClassName.bestGuess("javax.ws.rs.core.Context");
-  static final ClassName HttpServletRequest = ClassName.bestGuess("javax.servlet.http.HttpServletRequest");
-  static final ClassName HttpServletResponse = ClassName.bestGuess("javax.servlet.http.HttpServletResponse");
+  static final ClassName PATH = ClassName.bestGuess("jakarta.ws.rs.Path");
+  static final ClassName POST = ClassName.bestGuess("jakarta.ws.rs.POST");
+  static final ClassName CONTEXT = ClassName.bestGuess("jakarta.ws.rs.core.Context");
+  static final ClassName HttpServletRequest = ClassName.bestGuess("jakarta.servlet.http.HttpServletRequest");
+  static final ClassName HttpServletResponse = ClassName.bestGuess("jakarta.servlet.http.HttpServletResponse");
 
   private final Builder rpcResource;
   private final boolean passRequest;

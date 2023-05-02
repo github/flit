@@ -1,0 +1,79 @@
+{
+  "fileToGenerate": ["core.proto", "status.proto"],
+  "parameter": "target=server,type=jakarta",
+  "compilerVersion": {
+    "major": 3,
+    "minor": 5,
+    "patch": 1,
+    "suffix": ""
+  },
+  "protoFile": [{
+    "name": "core.proto",
+    "package": "com.example.helloworld",
+    "messageType": [{
+      "name": "Empty"
+    }],
+    "options": {
+      "javaPackage": "com.example.helloworld"
+    },
+    "syntax": "proto3"
+  }, {
+    "name": "status.proto",
+    "package": "com.example.helloworld",
+    "dependency": ["core.proto"],
+    "messageType": [{
+      "name": "StatusResponse",
+      "field": [{
+        "name": "status",
+        "number": 1,
+        "label": "LABEL_OPTIONAL",
+        "type": "TYPE_ENUM",
+        "typeName": ".com.example.helloworld.StatusResponse.StatusType",
+        "jsonName": "status"
+      }, {
+        "name": "sha",
+        "number": 2,
+        "label": "LABEL_OPTIONAL",
+        "type": "TYPE_STRING",
+        "jsonName": "sha"
+      }, {
+        "name": "date",
+        "number": 3,
+        "label": "LABEL_OPTIONAL",
+        "type": "TYPE_STRING",
+        "jsonName": "date"
+      }, {
+        "name": "version",
+        "number": 4,
+        "label": "LABEL_OPTIONAL",
+        "type": "TYPE_STRING",
+        "jsonName": "version"
+      }],
+      "enumType": [{
+        "name": "StatusType",
+        "value": [{
+          "name": "UNKNOWN",
+          "number": 0
+        }, {
+          "name": "RUNNING",
+          "number": 1
+        }, {
+          "name": "ERROR",
+          "number": 2
+        }]
+      }]
+    }],
+    "service": [{
+      "name": "Status",
+      "method": [{
+        "name": "GetStatus",
+        "inputType": ".com.example.helloworld.Empty",
+        "outputType": ".com.example.helloworld.StatusResponse"
+      }]
+    }],
+    "options": {
+      "javaPackage": "com.example.helloworld"
+    },
+    "syntax": "proto3"
+  }]
+}
