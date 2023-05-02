@@ -1,0 +1,29 @@
+{
+  "fileToGenerate": ["context.proto"],
+  "parameter": "target=server,type=jakarta,context=/",
+  "compilerVersion": {
+    "major": 3,
+    "minor": 5,
+    "patch": 1,
+    "suffix": ""
+  },
+  "protoFile": [{
+    "name": "context.proto",
+    "package": "com.example.context",
+    "messageType": [{
+      "name": "Empty"
+    }],
+    "service": [{
+      "name": "NullService",
+      "method": [{
+        "name": "SayNull",
+        "inputType": ".com.example.context.Empty",
+        "outputType": ".com.example.context.Empty"
+      }]
+    }],
+    "options": {
+      "javaPackage": "com.example.context.rpc"
+    },
+    "syntax": "proto3"
+  }]
+}

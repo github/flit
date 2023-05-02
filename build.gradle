@@ -14,6 +14,8 @@ allprojects {
 
     ext {
         // third party
+        jakartaservletapiVersion = "5.0.0"
+        jakartawsrsapiVersion = "3.0.0"
         javapoetVersion = "1.13.0"
         javaxservletapiVersion = "4.0.1"
         javaxwsrsapiVersion = "2.1.1"
@@ -25,7 +27,8 @@ allprojects {
         // testing
         approvaltestsVersion = "18.5.0"
         javaparserVersion = "3.25.2"
-        jerseyCommonVersion = "2.22.2"
+        jerseyCommonJavaxVersion = "2.22.2"
+        jerseyCommonJakartaVersion = "3.1.1"
         junitJupiterVersion = "5.9.2"
         mockitoVersion = "5.2.0"
     }

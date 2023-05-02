@@ -6,6 +6,7 @@ import static com.flit.protoc.Parameter.PARAM_TYPE;
 
 import com.flit.protoc.gen.Generator;
 import com.flit.protoc.gen.GeneratorException;
+import com.flit.protoc.gen.server.jakarta.JakartaGenerator;
 import com.flit.protoc.gen.server.jaxrs.JaxrsGenerator;
 import com.flit.protoc.gen.server.spring.SpringGenerator;
 import com.flit.protoc.gen.server.undertow.UndertowGenerator;
@@ -59,6 +60,8 @@ public class Plugin {
             return new UndertowGenerator(requestServices);
           case "jaxrs":
             return new JaxrsGenerator(requestServices);
+          case "jakarta":
+            return new JakartaGenerator(requestServices);
           default:
             throw new GeneratorException("Unknown server type: " + params.get(PARAM_TYPE).getValue());
         }

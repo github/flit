@@ -8,6 +8,7 @@ It supports the generation of Java based servers with the following flavours sup
 + [Spring Boot/Spring MVC](https://spring.io/projects/spring-boot "Spring Boot")
 + [Undertow](http://undertow.io/ "Undertow")
 + JAX-RS ([Jersey](https://eclipse-ee4j.github.io/jersey/), [Apache CFX](http://cxf.apache.org/))
++ [Jakarta EE](https://jakarta.ee/ "Jakarta") 
 
 ## Building & Running
 
@@ -24,13 +25,14 @@ To test you will need an installation of the [protocol buffers compiler](https:/
 
 The project is split into the following modules:
 
-| Module            |   Description                                         |
-|:------------------|:------------------------------------------------------|
-| `plugin`          | The `protoc` plugin                                   |
-| `runtime:core`    | Core functionality required by generated code         |
-| `runtime:jaxrs`   | Runtime library for JAX-RS servers                    |
-| `runtime:spring`  | Runtime library for Spring MVC/Boot servers           |
-| `runtime:undertow`| Runtime library for Undertow servers                  |
+| Module             | Description                                   |
+|:-------------------|:----------------------------------------------|
+| `plugin`           | The `protoc` plugin                           |
+| `runtime:core`     | Core functionality required by generated code |
+| `runtime:jakarta`  | Runtime library for Jakarta servers           |
+| `runtime:jaxrs`    | Runtime library for JAX-RS servers            |
+| `runtime:spring`   | Runtime library for Spring MVC/Boot servers   |
+| `runtime:undertow` | Runtime library for Undertow servers          |
 
 
 ### Build
@@ -63,12 +65,12 @@ The plugin is executed as part of a protoc compilation step:
 
 The flit plugin accepts the following plugin parameters:
 
-| Name      | Required  | Type                              | Description                                            |
-|:----------|:---------:|:----------------------------------|:-------------------------------------------------------|
-| `target`  | Y         | `enum[server]`                    | The type of target to generate e.g. server, client etc |
-| `type`    | Y         | `enum[spring,undertow,boot,jaxrs]`| Type of target to generate                             |
-| `context` | N         | `string`                          | Base context for routing, default is `/twirp`          |
-| `request` | N         | `string`                          | If the request parameter should pass to the service    |
+| Name      | Required  | Type                                       | Description                                            |
+|:----------|:---------:|:-------------------------------------------|:-------------------------------------------------------|
+| `target`  | Y         | `enum[server]`                             | The type of target to generate e.g. server, client etc |
+| `type`    | Y         | `enum[spring,undertow,boot,jakarta,jaxrs]` | Type of target to generate                             |
+| `context` | N         | `string`                                   | Base context for routing, default is `/twirp`          |
+| `request` | N         | `string`                                   | If the request parameter should pass to the service    |
 
 # Development
 
