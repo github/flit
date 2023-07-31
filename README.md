@@ -127,7 +127,7 @@ The plugin is executed as part of a protoc compilation step:
 
 ### Requirements
 
-The build has been tested with [Zulu's OpenJDK](https://www.azul.com/downloads/#zulu "JDK Downloads") version 11.
+The build has been tested with [Zulu's OpenJDK](https://www.azul.com/downloads/#zulu "JDK Downloads") version 17.
 
 The build uses gradle to generate the artifacts. No installation is required as the project uses the
 [gradle wrapper](https://docs.gradle.org/current/userguide/gradle_wrapper.html "gradle wrapper") setup.
