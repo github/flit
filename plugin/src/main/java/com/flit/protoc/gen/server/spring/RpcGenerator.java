@@ -17,8 +17,8 @@ class RpcGenerator extends BaseGenerator {
   static final ClassName RestController = ClassName.bestGuess("org.springframework.web.bind.annotation.RestController");
   static final ClassName Autowired = ClassName.bestGuess("org.springframework.beans.factory.annotation.Autowired");
   static final ClassName PostMapping = ClassName.bestGuess("org.springframework.web.bind.annotation.PostMapping");
-  static final ClassName HttpServletRequest = ClassName.bestGuess("javax.servlet.http.HttpServletRequest");
-  static final ClassName HttpServletResponse = ClassName.bestGuess("javax.servlet.http.HttpServletResponse");
+  static final ClassName HttpServletRequest = ClassName.bestGuess("jakarta.servlet.http.HttpServletRequest");
+  static final ClassName HttpServletResponse = ClassName.bestGuess("jakarta.servlet.http.HttpServletResponse");
 
   private final String context;
   private final TypeSpec.Builder rpcController;

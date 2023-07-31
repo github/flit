@@ -12,7 +12,7 @@ publishing {
     publications {
         maven(MavenPublication) {
             artifactId = 'flit-jaxrs-runtime'
-            version = "1.3"
+            version = "2.0"
 
             from components.java
         }
