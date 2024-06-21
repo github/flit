@@ -16,3 +16,4 @@ jobs:
     secrets: inherit
     with:
       java-version: 17
+      base-branch: master
