@@ -1,0 +1,15 @@
+---
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly
+    ignore:
+      # private repo has trouble with access, plus we're using main anyways
+      - dependency-name: github/data-pipelines
+    reviewers:
+      - github/data-pipelines
+    groups:
+      actions:
+        patterns: ['*']
