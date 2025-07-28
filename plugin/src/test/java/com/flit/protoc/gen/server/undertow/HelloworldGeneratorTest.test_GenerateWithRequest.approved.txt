@@ -71,7 +71,9 @@ public class RpcHelloWorldHandler implements HttpHandler {
     } else if (contentType.startsWith("application/json")) {
       json = true;
       Helloworld.HelloReq.Builder builder = Helloworld.HelloReq.newBuilder();
-      JsonFormat.parser().merge(new InputStreamReader(exchange.getInputStream(), StandardCharsets.UTF_8), builder);
+      try (InputStreamReader reader = new InputStreamReader(exchange.getInputStream(), StandardCharsets.UTF_8)) {
+        JsonFormat.parser().merge(reader, builder);
+      }
       data = builder.build();
     } else {
       exchange.setStatusCode(415);
@@ -97,7 +99,9 @@ public class RpcHelloWorldHandler implements HttpHandler {
     } else if (contentType.startsWith("application/json")) {
       json = true;
       Helloworld.HelloReq.Builder builder = Helloworld.HelloReq.newBuilder();
-      JsonFormat.parser().merge(new InputStreamReader(exchange.getInputStream(), StandardCharsets.UTF_8), builder);
+      try (InputStreamReader reader = new InputStreamReader(exchange.getInputStream(), StandardCharsets.UTF_8)) {
+        JsonFormat.parser().merge(reader, builder);
+      }
       data = builder.build();
     } else {
       exchange.setStatusCode(415);

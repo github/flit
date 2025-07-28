@@ -1,12 +1,13 @@
 plugins {
     id 'java-library'
     id 'maven-publish'
-    id 'dev.poolside.gradle.semantic-version' version '0.1.5'
+    id 'dev.poolside.gradle.semantic-version' version '1.0.0'
 }
 
 allprojects {
     apply plugin: 'java-library'
     apply plugin: 'maven-publish'
+    apply plugin: 'dev.poolside.gradle.semantic-version'
 
     repositories {
         mavenCentral()

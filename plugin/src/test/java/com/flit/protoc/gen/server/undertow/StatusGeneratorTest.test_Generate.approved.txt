@@ -66,7 +66,9 @@ public class RpcStatusHandler implements HttpHandler {
     } else if (contentType.startsWith("application/json")) {
       json = true;
       Core.Empty.Builder builder = Core.Empty.newBuilder();
-      JsonFormat.parser().merge(new InputStreamReader(exchange.getInputStream(), StandardCharsets.UTF_8), builder);
+      try (InputStreamReader reader = new InputStreamReader(exchange.getInputStream(), StandardCharsets.UTF_8)) {
+        JsonFormat.parser().merge(reader, builder);
+      }
       data = builder.build();
     } else {
       exchange.setStatusCode(415);
