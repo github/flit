@@ -33,7 +33,9 @@ public class RpcHelloWorldController {
     } else if (request.getContentType().startsWith("application/json")) {
       json = true;
       Helloworld.HelloReq.Builder builder = Helloworld.HelloReq.newBuilder();
-      JsonFormat.parser().merge(new InputStreamReader(request.getInputStream(), StandardCharsets.UTF_8), builder);
+      try (InputStreamReader reader = new InputStreamReader(request.getInputStream(), StandardCharsets.UTF_8)) {
+        JsonFormat.parser().merge(reader, builder);
+      }
       data = builder.build();
     } else {
       response.setStatus(415);
@@ -60,7 +62,9 @@ public class RpcHelloWorldController {
     } else if (request.getContentType().startsWith("application/json")) {
       json = true;
       Helloworld.HelloReq.Builder builder = Helloworld.HelloReq.newBuilder();
-      JsonFormat.parser().merge(new InputStreamReader(request.getInputStream(), StandardCharsets.UTF_8), builder);
+      try (InputStreamReader reader = new InputStreamReader(request.getInputStream(), StandardCharsets.UTF_8)) {
+        JsonFormat.parser().merge(reader, builder);
+      }
       data = builder.build();
     } else {
       response.setStatus(415);

@@ -61,10 +61,14 @@ class RpcGenerator extends BaseGenerator {
       .nextControlFlow("else if (request.getContentType().startsWith($S))", "application/json")
       .addStatement("json = true")
       .addStatement("$T.Builder builder = $T.newBuilder()", inputType, inputType)
-      .addStatement("$T.parser().merge(new $T(request.getInputStream(), $T.UTF_8), builder)",
-        Types.JsonFormat,
+      // try with resources
+      .beginControlFlow("try ($T reader = new $T(request.getInputStream(), $T.UTF_8))",
+        Types.InputStreamReader,
         Types.InputStreamReader,
         Types.StandardCharsets)
+      .addStatement("$T.parser().merge(reader, builder)",
+        Types.JsonFormat)
+      .endControlFlow()
       .addStatement("data = builder.build()")
       .nextControlFlow("else")
       .addStatement("response.setStatus(415)")
