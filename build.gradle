@@ -20,9 +20,9 @@ allprojects {
         javapoetVersion = "1.13.0"
         javaxservletapiVersion = "4.0.1"
         javaxwsrsapiVersion = "2.1.1"
-        protobufVersion = "3.25.5"
+        protobufVersion = "4.31.1"
         slf4jVersion = "2.0.17"
-        springVersion = "6.2.8"
+        springVersion = "6.2.9"
         undertowVersion = "2.3.18.Final"
 
         // testing
