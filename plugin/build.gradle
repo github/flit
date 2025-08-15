@@ -9,6 +9,7 @@ dependencies {
 
     testImplementation("com.github.javaparser:javaparser-core:$javaparserVersion")
     testImplementation("com.approvaltests:approvaltests:$approvaltestsVersion")
+    testImplementation("org.apache.commons:commons-lang3:$commonsLang3Version")
 }
 
 shadowJar {
