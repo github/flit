@@ -36,7 +36,7 @@ jobs:
         include:
         - language: actions
           build-mode: none
-        - language: java-kotlin
+        - language: java
           build-mode: none
 
     steps:
