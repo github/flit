@@ -1,5 +1,5 @@
 plugins {
-    id 'com.gradleup.shadow' version '8.3.8'
+    id 'com.gradleup.shadow' version '9.3.1'
 }
 
 dependencies {
@@ -22,10 +22,10 @@ shadowJar {
 
 publishing {
     publications {
-        shadow(MavenPublication) { publication ->
+        shadow(MavenPublication) {
             artifactId = 'flit-plugin'
             version = '2.0'
-            project.shadow.component(publication)
+            from components.shadow
         }
     }
 }
