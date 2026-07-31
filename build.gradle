@@ -22,7 +22,7 @@ allprojects {
         javaxwsrsapiVersion = "2.1.1"
         protobufVersion = "3.25.5"
         slf4jVersion = "2.0.17"
-        springVersion = "6.2.18"
+        springVersion = "6.2.19"
         undertowVersion = "2.4.0.Final"
 
         // testing
